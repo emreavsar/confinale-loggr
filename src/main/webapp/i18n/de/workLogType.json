@@ -1,0 +1,9 @@
+{
+    "loggrApp": {
+        "WorkLogType" : {
+            "null": "",
+            "WORK": "WORK",
+            "VACATION": "VACATION"
+        }
+    }
+}

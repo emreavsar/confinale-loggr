@@ -1,0 +1,26 @@
+{
+    "loggrApp": {
+        "workLog" : {
+            "home": {
+                "title": "Work Logs",
+                "createLabel": "Work Log erstellen",
+                "createOrEditLabel": "Work Log erstellen oder bearbeiten"
+            },
+            "created": "Work Log erstellt mit ID {{ param }}",
+            "updated": "Work Log aktualisiert mit ID {{ param }}",
+            "deleted": "Work Log gelöscht mit ID {{ param }}",
+            "delete": {
+                "question": "Soll Work Log {{ id }} wirklich dauerhaft gelöscht werden?"
+            },
+            "detail": {
+                "title": "Work Log"
+            },
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "type": "Type",
+            "approved": "Approved",
+            "project": "Project",
+            "creator": "Creator"
+        }
+    }
+}

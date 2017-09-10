@@ -1,0 +1,47 @@
+
+<div *ngIf="workLog">
+    <h2><span jhiTranslate="loggrApp.workLog.detail.title">Work Log</span> {{workLog.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="loggrApp.workLog.startDate">Start Date</span></dt>
+        <dd>
+            <span>{{workLog.startDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="loggrApp.workLog.endDate">End Date</span></dt>
+        <dd>
+            <span>{{workLog.endDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="loggrApp.workLog.type">Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'loggrApp.WorkLogType.' + workLog.type}}">{{workLog.type}}</span>
+        </dd>
+        <dt><span jhiTranslate="loggrApp.workLog.approved">Approved</span></dt>
+        <dd>
+            <span>{{workLog.approved}}</span>
+        </dd>
+        <dt><span jhiTranslate="loggrApp.workLog.project">Project</span></dt>
+        <dd>
+            <div *ngIf="workLog.projectId">
+                <a [routerLink]="['/project', workLog.projectId]">{{workLog.projectId}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="loggrApp.workLog.creator">Creator</span></dt>
+        <dd>
+            {{workLog.creatorId}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'work-log/'+ workLog.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
