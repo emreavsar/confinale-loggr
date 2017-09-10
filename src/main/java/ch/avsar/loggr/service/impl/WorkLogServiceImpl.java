@@ -1,5 +1,9 @@
 package ch.avsar.loggr.service.impl;
 
+import ch.avsar.loggr.domain.User;
+import ch.avsar.loggr.security.AuthoritiesConstants;
+import ch.avsar.loggr.security.SecurityUtils;
+import ch.avsar.loggr.service.UserService;
 import ch.avsar.loggr.service.WorkLogService;
 import ch.avsar.loggr.domain.WorkLog;
 import ch.avsar.loggr.repository.WorkLogRepository;
@@ -7,10 +11,14 @@ import ch.avsar.loggr.service.dto.WorkLogDTO;
 import ch.avsar.loggr.service.mapper.WorkLogMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.actuate.autoconfigure.ShellProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 
 /**
@@ -18,16 +26,21 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class WorkLogServiceImpl implements WorkLogService{
+public class WorkLogServiceImpl implements WorkLogService {
 
     private final Logger log = LoggerFactory.getLogger(WorkLogServiceImpl.class);
 
     private final WorkLogRepository workLogRepository;
 
+
     private final WorkLogMapper workLogMapper;
-    public WorkLogServiceImpl(WorkLogRepository workLogRepository, WorkLogMapper workLogMapper) {
+
+    private final UserService userService;
+
+    public WorkLogServiceImpl(WorkLogRepository workLogRepository, WorkLogMapper workLogMapper, UserService userService) {
         this.workLogRepository = workLogRepository;
         this.workLogMapper = workLogMapper;
+        this.userService = userService;
     }
 
     /**
@@ -40,15 +53,29 @@ public class WorkLogServiceImpl implements WorkLogService{
     public WorkLogDTO save(WorkLogDTO workLogDTO) {
         log.debug("Request to save WorkLog : {}", workLogDTO);
         WorkLog workLog = workLogMapper.toEntity(workLogDTO);
+
+        checkPermissions(workLogDTO.getCreatorId());
+
         workLog = workLogRepository.save(workLog);
         return workLogMapper.toDto(workLog);
     }
 
+    private void checkPermissions(Long creatorId) {
+        User currentLoggedInUser = userService.getUserWithAuthorities();
+        if (!currentLoggedInUser.getId().equals(creatorId)) {
+            boolean isManager = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.MANAGER);
+            boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
+            if (!isManager && !isAdmin) {
+                throw new AccessDeniedException("Saving worklogs of others is only permitted to users with manager or admin role.");
+            }
+        }
+    }
+
     /**
-     *  Get all the workLogs.
+     * Get all the workLogs.
      *
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -59,10 +86,10 @@ public class WorkLogServiceImpl implements WorkLogService{
     }
 
     /**
-     *  Get one workLog by id.
+     * Get one workLog by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,13 +100,14 @@ public class WorkLogServiceImpl implements WorkLogService{
     }
 
     /**
-     *  Delete the  workLog by id.
+     * Delete the  workLog by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
         log.debug("Request to delete WorkLog : {}", id);
+        checkPermissions(id);
         workLogRepository.delete(id);
     }
 }

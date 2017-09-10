@@ -1,5 +1,7 @@
 package ch.avsar.loggr.web.rest;
 
+import ch.avsar.loggr.security.SecurityUtils;
+import ch.avsar.loggr.service.UserService;
 import com.codahale.metrics.annotation.Timed;
 import ch.avsar.loggr.service.WorkLogService;
 import ch.avsar.loggr.web.rest.util.HeaderUtil;
