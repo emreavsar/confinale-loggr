@@ -25,6 +25,7 @@ import {
     ActiveMenuDirective,
     ErrorComponent
 } from './layouts';
+import {StatisticModule} from "./statistic/statistic.module";
 
 @NgModule({
     imports: [
@@ -37,6 +38,7 @@ import {
         LoggrAccountModule,
         LoggrEntityModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
+        StatisticModule
     ],
     declarations: [
         JhiMainComponent,
