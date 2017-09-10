@@ -54,6 +54,9 @@ public class WorkLogServiceImpl implements WorkLogService {
         log.debug("Request to save WorkLog : {}", workLogDTO);
         WorkLog workLog = workLogMapper.toEntity(workLogDTO);
 
+        if (workLogDTO.getCreatorId() == null) {
+            workLogDTO.setCreatorId(userService.getUserWithAuthorities().getId());
+        }
         checkPermissions(workLogDTO.getCreatorId());
 
         workLog = workLogRepository.save(workLog);
