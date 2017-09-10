@@ -8,17 +8,14 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity WorkLog and its DTO WorkLogDTO.
  */
-@Mapper(componentModel = "spring", uses = {ProjectMapper.class, UserMapper.class, })
+@Mapper(componentModel = "spring", uses = {UserMapper.class, })
 public interface WorkLogMapper extends EntityMapper <WorkLogDTO, WorkLog> {
-
-    @Mapping(source = "project.id", target = "projectId")
 
     @Mapping(source = "creator.id", target = "creatorId")
     WorkLogDTO toDto(WorkLog workLog); 
 
-    @Mapping(source = "projectId", target = "project")
-
     @Mapping(source = "creatorId", target = "creator")
+    @Mapping(target = "projects", ignore = true)
     WorkLog toEntity(WorkLogDTO workLogDTO); 
     default WorkLog fromId(Long id) {
         if (id == null) {

@@ -21,7 +21,6 @@
             <th jhiSortBy="endDate"><span jhiTranslate="loggrApp.workLog.endDate">End Date</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="type"><span jhiTranslate="loggrApp.workLog.type">Type</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="approved"><span jhiTranslate="loggrApp.workLog.approved">Approved</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="projectId"><span jhiTranslate="loggrApp.workLog.project">Project</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="creatorId"><span jhiTranslate="loggrApp.workLog.creator">Creator</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
@@ -33,11 +32,6 @@
                 <td>{{workLog.endDate | date:'medium'}}</td>
                 <td jhiTranslate="{{'loggrApp.WorkLogType.' + workLog.type}}">{{workLog.type}}</td>
                 <td>{{workLog.approved}}</td>
-                <td>
-                    <div *ngIf="workLog.projectId">
-                        <a [routerLink]="['../project', workLog.projectId  ]" >{{workLog.projectId}}</a>
-                    </div>
-                </td>
                 <td>
                     {{workLog.creatorId}}
                 </td>

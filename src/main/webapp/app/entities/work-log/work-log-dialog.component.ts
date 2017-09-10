@@ -9,8 +9,8 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { WorkLog } from './work-log.model';
 import { WorkLogPopupService } from './work-log-popup.service';
 import { WorkLogService } from './work-log.service';
-import { Project, ProjectService } from '../project';
 import { User, UserService } from '../../shared';
+import { Project, ProjectService } from '../project';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -22,26 +22,26 @@ export class WorkLogDialogComponent implements OnInit {
     workLog: WorkLog;
     isSaving: boolean;
 
-    projects: Project[];
-
     users: User[];
+
+    projects: Project[];
 
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private workLogService: WorkLogService,
-        private projectService: ProjectService,
         private userService: UserService,
+        private projectService: ProjectService,
         private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.projectService.query()
-            .subscribe((res: ResponseWrapper) => { this.projects = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.userService.query()
             .subscribe((res: ResponseWrapper) => { this.users = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.projectService.query()
+            .subscribe((res: ResponseWrapper) => { this.projects = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -84,12 +84,23 @@ export class WorkLogDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
+    trackUserById(index: number, item: User) {
+        return item.id;
+    }
+
     trackProjectById(index: number, item: Project) {
         return item.id;
     }
 
-    trackUserById(index: number, item: User) {
-        return item.id;
+    getSelected(selectedVals: Array<any>, option: any) {
+        if (selectedVals) {
+            for (let i = 0; i < selectedVals.length; i++) {
+                if (option.id === selectedVals[i].id) {
+                    return selectedVals[i];
+                }
+            }
+        }
+        return option;
     }
 }
 

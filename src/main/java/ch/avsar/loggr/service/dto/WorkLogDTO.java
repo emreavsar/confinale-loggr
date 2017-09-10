@@ -27,8 +27,6 @@ public class WorkLogDTO implements Serializable {
 
     private Boolean approved;
 
-    private Long projectId;
-
     private Long creatorId;
 
     public Long getId() {
@@ -69,14 +67,6 @@ public class WorkLogDTO implements Serializable {
 
     public void setApproved(Boolean approved) {
         this.approved = approved;
-    }
-
-    public Long getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
     }
 
     public Long getCreatorId() {

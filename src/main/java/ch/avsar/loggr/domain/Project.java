@@ -4,6 +4,8 @@ package ch.avsar.loggr.domain;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -26,8 +28,11 @@ public class Project implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne
-    private WorkLog worklogs;
+    @ManyToMany
+    @JoinTable(name = "project_worklogs",
+               joinColumns = @JoinColumn(name="projects_id", referencedColumnName="id"),
+               inverseJoinColumns = @JoinColumn(name="worklogs_id", referencedColumnName="id"))
+    private Set<WorkLog> worklogs = new HashSet<>();
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
@@ -64,17 +69,29 @@ public class Project implements Serializable {
         this.description = description;
     }
 
-    public WorkLog getWorklogs() {
+    public Set<WorkLog> getWorklogs() {
         return worklogs;
     }
 
-    public Project worklogs(WorkLog workLog) {
-        this.worklogs = workLog;
+    public Project worklogs(Set<WorkLog> workLogs) {
+        this.worklogs = workLogs;
         return this;
     }
 
-    public void setWorklogs(WorkLog workLog) {
-        this.worklogs = workLog;
+    public Project addWorklogs(WorkLog workLog) {
+        this.worklogs.add(workLog);
+        workLog.getProjects().add(this);
+        return this;
+    }
+
+    public Project removeWorklogs(WorkLog workLog) {
+        this.worklogs.remove(workLog);
+        workLog.getProjects().remove(this);
+        return this;
+    }
+
+    public void setWorklogs(Set<WorkLog> workLogs) {
+        this.worklogs = workLogs;
     }
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 

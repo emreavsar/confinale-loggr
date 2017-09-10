@@ -19,8 +19,8 @@
             "endDate": "End Date",
             "type": "Type",
             "approved": "Approved",
-            "project": "Project",
-            "creator": "Creator"
+            "creator": "Creator",
+            "project": "Project"
         }
     }
 }

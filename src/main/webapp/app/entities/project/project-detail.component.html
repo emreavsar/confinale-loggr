@@ -14,9 +14,9 @@
         </dd>
         <dt><span jhiTranslate="loggrApp.project.worklogs">Worklogs</span></dt>
         <dd>
-            <div *ngIf="project.worklogsId">
-                <a [routerLink]="['/work-log', project.worklogsId]">{{project.worklogsId}}</a>
-            </div>
+            <span *ngFor="let worklogs of project.worklogs; let last = last">
+                <a [routerLink]="['/work-log', worklogs?.id ]">{{worklogs.id}}</a>{{last ? '' : ', '}}
+            </span>
         </dd>
     </dl>
 

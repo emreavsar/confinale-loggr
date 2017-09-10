@@ -1,10 +1,13 @@
 package ch.avsar.loggr.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 import ch.avsar.loggr.domain.enumeration.WorkLogType;
@@ -39,10 +42,11 @@ public class WorkLog implements Serializable {
     private Boolean approved;
 
     @ManyToOne
-    private Project project;
-
-    @ManyToOne
     private User creator;
+
+    @ManyToMany(mappedBy = "worklogs")
+    @JsonIgnore
+    private Set<Project> projects = new HashSet<>();
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
@@ -105,19 +109,6 @@ public class WorkLog implements Serializable {
         this.approved = approved;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
-    public WorkLog project(Project project) {
-        this.project = project;
-        return this;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
     public User getCreator() {
         return creator;
     }
@@ -129,6 +120,31 @@ public class WorkLog implements Serializable {
 
     public void setCreator(User user) {
         this.creator = user;
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public WorkLog projects(Set<Project> projects) {
+        this.projects = projects;
+        return this;
+    }
+
+    public WorkLog addProject(Project project) {
+        this.projects.add(project);
+        project.getWorklogs().add(this);
+        return this;
+    }
+
+    public WorkLog removeProject(Project project) {
+        this.projects.remove(project);
+        project.getWorklogs().remove(this);
+        return this;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
     }
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 

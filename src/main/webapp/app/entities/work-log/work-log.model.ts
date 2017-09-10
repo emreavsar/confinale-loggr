@@ -12,8 +12,8 @@ export class WorkLog implements BaseEntity {
         public endDate?: any,
         public type?: WorkLogType,
         public approved?: boolean,
-        public projectId?: number,
         public creatorId?: number,
+        public projects?: BaseEntity[],
     ) {
         this.approved = false;
     }

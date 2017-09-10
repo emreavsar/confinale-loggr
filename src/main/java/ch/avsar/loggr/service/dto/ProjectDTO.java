@@ -19,7 +19,7 @@ public class ProjectDTO implements Serializable {
 
     private String description;
 
-    private Long worklogsId;
+    private Set<WorkLogDTO> worklogs = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -45,12 +45,12 @@ public class ProjectDTO implements Serializable {
         this.description = description;
     }
 
-    public Long getWorklogsId() {
-        return worklogsId;
+    public Set<WorkLogDTO> getWorklogs() {
+        return worklogs;
     }
 
-    public void setWorklogsId(Long workLogId) {
-        this.worklogsId = workLogId;
+    public void setWorklogs(Set<WorkLogDTO> workLogs) {
+        this.worklogs = workLogs;
     }
 
     @Override

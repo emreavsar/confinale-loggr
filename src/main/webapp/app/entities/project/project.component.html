@@ -19,7 +19,6 @@
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="name"><span jhiTranslate="loggrApp.project.name">Name</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="description"><span jhiTranslate="loggrApp.project.description">Description</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="worklogsId"><span jhiTranslate="loggrApp.project.worklogs">Worklogs</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
@@ -28,11 +27,6 @@
                 <td><a [routerLink]="['../project', project.id ]">{{project.id}}</a></td>
                 <td>{{project.name}}</td>
                 <td>{{project.description}}</td>
-                <td>
-                    <div *ngIf="project.worklogsId">
-                        <a [routerLink]="['../work-log', project.worklogsId  ]" >{{project.worklogsId}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

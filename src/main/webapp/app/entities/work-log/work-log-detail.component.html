@@ -20,12 +20,6 @@
         <dd>
             <span>{{workLog.approved}}</span>
         </dd>
-        <dt><span jhiTranslate="loggrApp.workLog.project">Project</span></dt>
-        <dd>
-            <div *ngIf="workLog.projectId">
-                <a [routerLink]="['/project', workLog.projectId]">{{workLog.projectId}}</a>
-            </div>
-        </dd>
         <dt><span jhiTranslate="loggrApp.workLog.creator">Creator</span></dt>
         <dd>
             {{workLog.creatorId}}
