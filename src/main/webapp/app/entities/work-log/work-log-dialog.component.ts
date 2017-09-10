@@ -38,7 +38,10 @@ export class WorkLogDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.setCreatorToCurrentEmployee();
+        // only on new entities
+        if (!this.workLog.creatorId) {
+            this.setCreatorToCurrentEmployee();
+        }
 
         this.userService.query()
             .subscribe((res: ResponseWrapper) => {
