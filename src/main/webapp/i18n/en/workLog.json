@@ -19,7 +19,8 @@
             "endDate": "End Date",
             "type": "Type",
             "approved": "Approved",
-            "creator": "Creator (If you want to create a worklog for another person)",
+            "creator": "Creator",
+            "creatorHint": "(If you want to create a worklog for another person)",
             "project": "Project"
         }
     }

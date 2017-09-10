@@ -67,6 +67,7 @@
 
         <div class="form-group" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_MANAGER']">
             <label class="form-control-label" jhiTranslate="loggrApp.workLog.creator" for="field_creator">Creator</label>
+            <span jhiTranslate="loggrApp.workLog.creatorHint">(If you want to create a worklog for another person)</span>
             <select class="form-control" id="field_creator" name="creator" [(ngModel)]="workLog.creatorId" >
                 <option [ngValue]="null"></option>
                 <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.id}}</option>
