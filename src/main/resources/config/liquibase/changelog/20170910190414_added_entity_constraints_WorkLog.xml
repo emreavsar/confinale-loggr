@@ -7,7 +7,13 @@
         Added the constraints for entity WorkLog.
     -->
     <changeSet id="20170910190414-2" author="jhipster">
-        
+
+        <addForeignKeyConstraint baseColumnNames="project_id"
+                                 baseTableName="work_log"
+                                 constraintName="fk_work_log_project_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="project"/>
+
         <addForeignKeyConstraint baseColumnNames="creator_id"
                                  baseTableName="work_log"
                                  constraintName="fk_work_log_creator_id"

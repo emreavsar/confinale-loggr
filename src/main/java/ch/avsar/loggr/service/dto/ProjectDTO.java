@@ -19,8 +19,6 @@ public class ProjectDTO implements Serializable {
 
     private String description;
 
-    private Set<WorkLogDTO> worklogs = new HashSet<>();
-
     public Long getId() {
         return id;
     }
@@ -43,14 +41,6 @@ public class ProjectDTO implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Set<WorkLogDTO> getWorklogs() {
-        return worklogs;
-    }
-
-    public void setWorklogs(Set<WorkLogDTO> workLogs) {
-        this.worklogs = workLogs;
     }
 
     @Override

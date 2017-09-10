@@ -29,12 +29,6 @@
                 [(ngModel)]="project.description"  />
         </div>
 
-        <div class="form-group">
-            <label jhiTranslate="loggrApp.project.worklogs" for="field_worklogs">Worklogs</label>
-            <select class="form-control" id="field_worklogs" multiple name="worklogs" [(ngModel)]="project.worklogs">
-                <option [ngValue]="getSelected(project.worklogs, workLogOption)" *ngFor="let workLogOption of worklogs; trackBy: trackWorkLogById">{{workLogOption.id}}</option>
-            </select>
-        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">

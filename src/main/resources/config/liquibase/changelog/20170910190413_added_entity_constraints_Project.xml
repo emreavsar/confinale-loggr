@@ -6,18 +6,18 @@
     <!--
         Added the constraints for entity Project.
     -->
-    <changeSet id="20170910190413-2" author="jhipster">
-        
-        <addForeignKeyConstraint baseColumnNames="projects_id"
-                                 baseTableName="project_worklogs"
-                                 constraintName="fk_project_worklogs_projects_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="project"/>
-        <addForeignKeyConstraint baseColumnNames="worklogs_id"
-                                 baseTableName="project_worklogs"
-                                 constraintName="fk_project_worklogs_worklogs_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="work_log"/>
-        
-    </changeSet>
+    <!--<changeSet id="20170910190413-2" author="jhipster">-->
+        <!---->
+        <!--<addForeignKeyConstraint baseColumnNames="projects_id"-->
+                                 <!--baseTableName="project_worklogs"-->
+                                 <!--constraintName="fk_project_worklogs_projects_id"-->
+                                 <!--referencedColumnNames="id"-->
+                                 <!--referencedTableName="project"/>-->
+        <!--<addForeignKeyConstraint baseColumnNames="worklogs_id"-->
+                                 <!--baseTableName="project_worklogs"-->
+                                 <!--constraintName="fk_project_worklogs_worklogs_id"-->
+                                 <!--referencedColumnNames="id"-->
+                                 <!--referencedTableName="work_log"/>-->
+        <!---->
+    <!--</changeSet>-->
 </databaseChangeLog>

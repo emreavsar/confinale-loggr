@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+
 import ch.avsar.loggr.domain.enumeration.WorkLogType;
 
 /**
@@ -26,6 +27,8 @@ public class WorkLogDTO implements Serializable {
     private WorkLogType type;
 
     private Boolean approved;
+
+    private Long projectId;
 
     private Long creatorId;
 
@@ -77,6 +80,14 @@ public class WorkLogDTO implements Serializable {
         this.creatorId = userId;
     }
 
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -87,7 +98,7 @@ public class WorkLogDTO implements Serializable {
         }
 
         WorkLogDTO workLogDTO = (WorkLogDTO) o;
-        if(workLogDTO.getId() == null || getId() == null) {
+        if (workLogDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), workLogDTO.getId());
@@ -101,11 +112,13 @@ public class WorkLogDTO implements Serializable {
     @Override
     public String toString() {
         return "WorkLogDTO{" +
-            "id=" + getId() +
-            ", startDate='" + getStartDate() + "'" +
-            ", endDate='" + getEndDate() + "'" +
-            ", type='" + getType() + "'" +
-            ", approved='" + isApproved() + "'" +
-            "}";
+            "id=" + id +
+            ", startDate=" + startDate +
+            ", endDate=" + endDate +
+            ", type=" + type +
+            ", approved=" + approved +
+            ", projectId=" + projectId +
+            ", creatorId=" + creatorId +
+            '}';
     }
 }

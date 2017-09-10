@@ -16,10 +16,11 @@ entity WorkLog {
 
 relationship ManyToOne {
 	WorkLog{creator} to User
+	WorkLog{project} to Project
 }
 
-relationship ManyToMany {
-	Project{worklogs} to WorkLog{project}
+relationship OneToMany {
+	Project{worklogs} to WorkLog
 }
 
 // Set pagination options

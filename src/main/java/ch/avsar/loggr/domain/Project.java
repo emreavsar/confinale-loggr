@@ -1,5 +1,6 @@
 package ch.avsar.loggr.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -28,10 +29,8 @@ public class Project implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @ManyToMany
-    @JoinTable(name = "project_worklogs",
-               joinColumns = @JoinColumn(name="projects_id", referencedColumnName="id"),
-               inverseJoinColumns = @JoinColumn(name="worklogs_id", referencedColumnName="id"))
+    @OneToMany(mappedBy = "project")
+    @JsonIgnore
     private Set<WorkLog> worklogs = new HashSet<>();
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
@@ -80,13 +79,13 @@ public class Project implements Serializable {
 
     public Project addWorklogs(WorkLog workLog) {
         this.worklogs.add(workLog);
-        workLog.getProjects().add(this);
+        workLog.setProject(this);
         return this;
     }
 
     public Project removeWorklogs(WorkLog workLog) {
         this.worklogs.remove(workLog);
-        workLog.getProjects().remove(this);
+        workLog.setProject(null);
         return this;
     }
 

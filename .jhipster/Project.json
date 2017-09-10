@@ -2,12 +2,10 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "project",
+            "relationshipType": "one-to-many",
             "relationshipName": "worklogs",
             "otherEntityName": "workLog",
-            "otherEntityField": "id",
-            "ownerSide": true
+            "otherEntityRelationshipName": "project"
         }
     ],
     "fields": [

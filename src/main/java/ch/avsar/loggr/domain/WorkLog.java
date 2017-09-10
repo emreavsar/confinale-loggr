@@ -1,13 +1,10 @@
 package ch.avsar.loggr.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 import ch.avsar.loggr.domain.enumeration.WorkLogType;
@@ -42,11 +39,10 @@ public class WorkLog implements Serializable {
     private Boolean approved;
 
     @ManyToOne
-    private User creator;
+    private Project project;
 
-    @ManyToMany(mappedBy = "worklogs")
-    @JsonIgnore
-    private Set<Project> projects = new HashSet<>();
+    @ManyToOne
+    private User creator;
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
@@ -109,6 +105,7 @@ public class WorkLog implements Serializable {
         this.approved = approved;
     }
 
+
     public User getCreator() {
         return creator;
     }
@@ -122,29 +119,17 @@ public class WorkLog implements Serializable {
         this.creator = user;
     }
 
-    public Set<Project> getProjects() {
-        return projects;
+    public Project getProject() {
+        return project;
     }
 
-    public WorkLog projects(Set<Project> projects) {
-        this.projects = projects;
+    public WorkLog project(Project project) {
+        this.project = project;
         return this;
     }
 
-    public WorkLog addProject(Project project) {
-        this.projects.add(project);
-        project.getWorklogs().add(this);
-        return this;
-    }
-
-    public WorkLog removeProject(Project project) {
-        this.projects.remove(project);
-        project.getWorklogs().remove(this);
-        return this;
-    }
-
-    public void setProjects(Set<Project> projects) {
-        this.projects = projects;
+    public void setProject(Project project) {
+        this.project = project;
     }
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
@@ -171,11 +156,13 @@ public class WorkLog implements Serializable {
     @Override
     public String toString() {
         return "WorkLog{" +
-            "id=" + getId() +
-            ", startDate='" + getStartDate() + "'" +
-            ", endDate='" + getEndDate() + "'" +
-            ", type='" + getType() + "'" +
-            ", approved='" + isApproved() + "'" +
-            "}";
+            "id=" + id +
+            ", startDate=" + startDate +
+            ", endDate=" + endDate +
+            ", type=" + type +
+            ", approved=" + approved +
+            ", project=" + project +
+            ", creator=" + creator +
+            '}';
     }
 }

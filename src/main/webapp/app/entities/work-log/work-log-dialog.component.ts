@@ -1,17 +1,17 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {Response} from '@angular/http';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Response } from '@angular/http';
 
-import {Observable} from 'rxjs/Rx';
-import {NgbActiveModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {JhiEventManager, JhiAlertService} from 'ng-jhipster';
+import { Observable } from 'rxjs/Rx';
+import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
-import {WorkLog} from './work-log.model';
-import {WorkLogPopupService} from './work-log-popup.service';
-import {WorkLogService} from './work-log.service';
-import {User, UserService} from '../../shared';
-import {Project, ProjectService} from '../project';
-import {ResponseWrapper} from '../../shared';
+import { WorkLog } from './work-log.model';
+import { WorkLogPopupService } from './work-log-popup.service';
+import { WorkLogService } from './work-log.service';
+import { Project, ProjectService } from '../project';
+import { User, UserService } from '../../shared';
+import { ResponseWrapper } from '../../shared';
 import {Principal} from "../../shared/auth/principal.service";
 
 @Component({
@@ -23,34 +23,32 @@ export class WorkLogDialogComponent implements OnInit {
     workLog: WorkLog;
     isSaving: boolean;
 
-    users: User[];
-
     projects: Project[];
 
-    constructor(public activeModal: NgbActiveModal,
-                private alertService: JhiAlertService,
-                private workLogService: WorkLogService,
-                private userService: UserService,
-                private projectService: ProjectService,
-                private eventManager: JhiEventManager,
-                private principal: Principal) {
+    users: User[];
+
+    constructor(
+        public activeModal: NgbActiveModal,
+        private alertService: JhiAlertService,
+        private workLogService: WorkLogService,
+        private projectService: ProjectService,
+        private userService: UserService,
+        private eventManager: JhiEventManager,
+        private principal: Principal
+    ) {
     }
 
     ngOnInit() {
-        this.isSaving = false;
         // only on new entities
         if (!this.workLog.creatorId) {
             this.setCreatorToCurrentEmployee();
         }
 
-        this.userService.query()
-            .subscribe((res: ResponseWrapper) => {
-                this.users = res.json;
-            }, (res: ResponseWrapper) => this.onError(res.json));
+        this.isSaving = false;
         this.projectService.query()
-            .subscribe((res: ResponseWrapper) => {
-                this.projects = res.json;
-            }, (res: ResponseWrapper) => this.onError(res.json));
+            .subscribe((res: ResponseWrapper) => { this.projects = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.userService.query()
+            .subscribe((res: ResponseWrapper) => { this.users = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -68,13 +66,21 @@ export class WorkLogDialogComponent implements OnInit {
         }
     }
 
+
+    private setCreatorToCurrentEmployee() {
+        this.principal.identity().then(res => {
+            console.debug("current logged in user's id: " + res.id);
+            this.workLog.creatorId = res.id;
+        });
+    }
+
     private subscribeToSaveResponse(result: Observable<WorkLog>) {
         result.subscribe((res: WorkLog) =>
             this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
     private onSaveSuccess(result: WorkLog) {
-        this.eventManager.broadcast({name: 'workLogListModification', content: 'OK'});
+        this.eventManager.broadcast({ name: 'workLogListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
@@ -93,30 +99,12 @@ export class WorkLogDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
-    trackUserById(index: number, item: User) {
-        return item.id;
-    }
-
     trackProjectById(index: number, item: Project) {
         return item.id;
     }
 
-    getSelected(selectedVals: Array<any>, option: any) {
-        if (selectedVals) {
-            for (let i = 0; i < selectedVals.length; i++) {
-                if (option.id === selectedVals[i].id) {
-                    return selectedVals[i];
-                }
-            }
-        }
-        return option;
-    }
-
-    private setCreatorToCurrentEmployee() {
-        this.principal.identity().then(res => {
-            console.debug("current logged in user's id: " + res.id);
-            this.workLog.creatorId = res.id;
-        });
+    trackUserById(index: number, item: User) {
+        return item.id;
     }
 }
 
@@ -128,13 +116,14 @@ export class WorkLogPopupComponent implements OnInit, OnDestroy {
 
     routeSub: any;
 
-    constructor(private route: ActivatedRoute,
-                private workLogPopupService: WorkLogPopupService) {
-    }
+    constructor(
+        private route: ActivatedRoute,
+        private workLogPopupService: WorkLogPopupService
+    ) {}
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            if (params['id']) {
+            if ( params['id'] ) {
                 this.workLogPopupService
                     .open(WorkLogDialogComponent as Component, params['id']);
             } else {

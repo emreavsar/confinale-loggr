@@ -1,5 +1,6 @@
 package ch.avsar.loggr.service.impl;
 
+import ch.avsar.loggr.domain.Project;
 import ch.avsar.loggr.domain.User;
 import ch.avsar.loggr.security.AuthoritiesConstants;
 import ch.avsar.loggr.security.SecurityUtils;
@@ -11,14 +12,15 @@ import ch.avsar.loggr.service.dto.WorkLogDTO;
 import ch.avsar.loggr.service.mapper.WorkLogMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.actuate.autoconfigure.ShellProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 /**
@@ -31,7 +33,6 @@ public class WorkLogServiceImpl implements WorkLogService {
     private final Logger log = LoggerFactory.getLogger(WorkLogServiceImpl.class);
 
     private final WorkLogRepository workLogRepository;
-
 
     private final WorkLogMapper workLogMapper;
 
@@ -61,17 +62,6 @@ public class WorkLogServiceImpl implements WorkLogService {
 
         workLog = workLogRepository.save(workLog);
         return workLogMapper.toDto(workLog);
-    }
-
-    private void checkPermissions(Long creatorId) {
-        User currentLoggedInUser = userService.getUserWithAuthorities();
-        if (!currentLoggedInUser.getId().equals(creatorId)) {
-            boolean isManager = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.MANAGER);
-            boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
-            if (!isManager && !isAdmin) {
-                throw new AccessDeniedException("Saving worklogs of others is only permitted to users with manager or admin role.");
-            }
-        }
     }
 
     /**
@@ -112,5 +102,25 @@ public class WorkLogServiceImpl implements WorkLogService {
         log.debug("Request to delete WorkLog : {}", id);
         checkPermissions(id);
         workLogRepository.delete(id);
+    }
+
+    @Override
+    public Map<Project, List<WorkLog>> getStatisticPerProject() {
+        log.debug("Request statistic per project");
+
+        // TODO: 10.09.17 this can be done via repository group by methods, but since this is a prototype this is ok (performance)
+        List<WorkLog> allWorkLogs = workLogRepository.findAll();
+        return allWorkLogs.stream().collect(Collectors.groupingBy(WorkLog::getProject));
+    }
+
+    private void checkPermissions(Long creatorId) {
+        User currentLoggedInUser = userService.getUserWithAuthorities();
+        if (!currentLoggedInUser.getId().equals(creatorId)) {
+            boolean isManager = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.MANAGER);
+            boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
+            if (!isManager && !isAdmin) {
+                throw new AccessDeniedException("Saving worklogs of others is only permitted to users with manager or admin role.");
+            }
+        }
     }
 }

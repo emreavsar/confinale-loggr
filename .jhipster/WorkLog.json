@@ -2,17 +2,22 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
             "relationshipType": "many-to-one",
             "relationshipName": "creator",
             "otherEntityName": "user",
             "otherEntityField": "id"
         },
         {
-            "relationshipType": "many-to-many",
+            "relationshipType": "many-to-one",
             "relationshipName": "project",
             "otherEntityName": "project",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "worklogs"
+            "otherEntityField": "id"
         }
     ],
     "fields": [

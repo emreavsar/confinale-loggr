@@ -19,9 +19,9 @@
             "endDate": "End Date",
             "type": "Type",
             "approved": "Approved",
-            "creator": "Ersteller (Für andere Worklogs erfassen)",
-            "creatorHint": "(Für andere Worklogs erfassen)",
-            "project": "Project"
+            "project": "Project",
+            "creator": "Creator",
+            "creatorHint": "(Für andere Worklogs erfassen)"
         }
     }
 }

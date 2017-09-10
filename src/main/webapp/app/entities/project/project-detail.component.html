@@ -12,12 +12,6 @@
         <dd>
             <span>{{project.description}}</span>
         </dd>
-        <dt><span jhiTranslate="loggrApp.project.worklogs">Worklogs</span></dt>
-        <dd>
-            <span *ngFor="let worklogs of project.worklogs; let last = last">
-                <a [routerLink]="['/work-log', worklogs?.id ]">{{worklogs.id}}</a>{{last ? '' : ', '}}
-            </span>
-        </dd>
     </dl>
 
     <button type="submit"

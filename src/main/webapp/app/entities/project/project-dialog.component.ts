@@ -9,8 +9,6 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Project } from './project.model';
 import { ProjectPopupService } from './project-popup.service';
 import { ProjectService } from './project.service';
-import { WorkLog, WorkLogService } from '../work-log';
-import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-project-dialog',
@@ -21,21 +19,16 @@ export class ProjectDialogComponent implements OnInit {
     project: Project;
     isSaving: boolean;
 
-    worklogs: WorkLog[];
-
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private projectService: ProjectService,
-        private workLogService: WorkLogService,
         private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.workLogService.query()
-            .subscribe((res: ResponseWrapper) => { this.worklogs = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -76,21 +69,6 @@ export class ProjectDialogComponent implements OnInit {
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
-    }
-
-    trackWorkLogById(index: number, item: WorkLog) {
-        return item.id;
-    }
-
-    getSelected(selectedVals: Array<any>, option: any) {
-        if (selectedVals) {
-            for (let i = 0; i < selectedVals.length; i++) {
-                if (option.id === selectedVals[i].id) {
-                    return selectedVals[i];
-                }
-            }
-        }
-        return option;
     }
 }
 

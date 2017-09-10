@@ -1,7 +1,7 @@
 package ch.avsar.loggr.web.rest;
 
-import ch.avsar.loggr.security.SecurityUtils;
-import ch.avsar.loggr.service.UserService;
+import ch.avsar.loggr.domain.Project;
+import ch.avsar.loggr.domain.WorkLog;
 import com.codahale.metrics.annotation.Timed;
 import ch.avsar.loggr.service.WorkLogService;
 import ch.avsar.loggr.web.rest.util.HeaderUtil;
@@ -23,6 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -125,5 +126,17 @@ public class WorkLogResource {
         log.debug("REST request to delete WorkLog : {}", id);
         workLogService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * GET /work-logs/statistics/project : returns statistics per project
+     *
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @GetMapping("/work-logs/statistics/project")
+    public ResponseEntity<Map<Project, List<WorkLog>>> getStatisticsByProject() {
+        log.debug("REST request to get statistic by project.");
+        Map<Project, List<WorkLog>> statisticPerProject = workLogService.getStatisticPerProject();
+        return new ResponseEntity<>(statisticPerProject, HttpStatus.OK);
     }
 }
