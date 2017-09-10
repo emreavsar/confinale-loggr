@@ -19,7 +19,7 @@
             "endDate": "End Date",
             "type": "Type",
             "approved": "Approved",
-            "creator": "Creator",
+            "creator": "Ersteller (Für andere Worklogs erfassen)",
             "project": "Project"
         }
     }
