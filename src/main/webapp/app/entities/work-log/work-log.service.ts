@@ -52,14 +52,14 @@ export class WorkLogService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
-    statisticPerProject(): Observable<Statistic> {
+    statisticPerProject(): Observable<Statistic[]> {
         return this.http.get(`${this.resourceUrl}/statistics/project`)
-            .map((res: Response) => res.json() as Statistic);
+            .map((res: Response) => res.json());
     }
 
-    statisticPerEmployee(): Observable<Statistic> {
+    statisticPerEmployee(): Observable<Statistic[]> {
         return this.http.get(`${this.resourceUrl}/statistics/employee`)
-            .map((res: Response) => res.json() as Statistic);
+            .map((res: Response) => res.json());
     }
 
     private convertResponse(res: Response): ResponseWrapper {
