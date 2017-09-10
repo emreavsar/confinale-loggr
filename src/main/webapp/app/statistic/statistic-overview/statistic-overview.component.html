@@ -1,3 +1,27 @@
-<p>
-  statistic-overview works!
-</p>
+<div>
+    <h2>
+        <span jhiTranslate="loggrApp.statistic.home.title">Work Logs</span>
+    </h2>
+    <div class="row">
+
+        <div class="col-md-6">
+            <h3 jhiTranslate="loggrApp.statistic.project.title">Per Project</h3>
+
+            <button class="btn" type="button" (click)="toggleRawDataPerProject()" jhiTranslate="loggrApp.statistic.raw.toggle">
+                Toggle
+                raw data:
+            </button>
+            <pre *ngIf="showRawDataPerProject">{{statisticPerProject|json}}</pre>
+        </div>
+
+        <div class="col-md-6">
+            <h3 jhiTranslate="loggrApp.statistic.employee.title">Per Employee</h3>
+
+            <button class="btn" type="button" (click)="toggleRawDataPerEmployee()" jhiTranslate="loggrApp.statistic.raw.toggle">
+                Toggle
+                raw data:
+            </button>
+            <pre *ngIf="showRawDataPerEmployee">{{statisticPerEmployee|json}}</pre>
+        </div>
+    </div>
+</div>

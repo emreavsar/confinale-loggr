@@ -1,0 +1,18 @@
+{
+    "loggrApp": {
+        "statistic": {
+            "home": {
+                "title": "Statistik"
+            },
+            "project": {
+                "title": "Pro Projekt"
+            },
+            "employee": {
+                "title": "Pro Mitarbeiter"
+            },
+            "raw": {
+                "toggle": "Rohdaten anzeigen"
+            }
+        }
+    }
+}

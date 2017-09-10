@@ -113,6 +113,15 @@ public class WorkLogServiceImpl implements WorkLogService {
         return allWorkLogs.stream().collect(Collectors.groupingBy(WorkLog::getProject));
     }
 
+    @Override
+    public Map<User, List<WorkLog>> getStatisticPerEmployee() {
+        log.debug("Request statistic per employee");
+
+        // TODO: 10.09.17 this can be done via repository group by methods, but since this is a prototype this is ok (performance)
+        List<WorkLog> allWorkLogs = workLogRepository.findAll();
+        return allWorkLogs.stream().collect(Collectors.groupingBy(WorkLog::getCreator));
+    }
+
     private void checkPermissions(Long creatorId) {
         User currentLoggedInUser = userService.getUserWithAuthorities();
         if (!currentLoggedInUser.getId().equals(creatorId)) {

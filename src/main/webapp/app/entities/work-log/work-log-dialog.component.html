@@ -79,8 +79,6 @@
                 <option [ngValue]="projectOption.id" *ngFor="let projectOption of projects; trackBy: trackProjectById">{{projectOption.id}}</option>
             </select>
         </div>
-
-        <pre>{{workLog|json}}</pre>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">

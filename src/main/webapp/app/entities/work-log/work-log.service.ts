@@ -1,17 +1,20 @@
-import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import { JhiDateUtils } from 'ng-jhipster';
+import {Injectable} from '@angular/core';
+import {Http, Response} from '@angular/http';
+import {Observable} from 'rxjs/Rx';
+import {JhiDateUtils} from 'ng-jhipster';
 
-import { WorkLog } from './work-log.model';
-import { ResponseWrapper, createRequestOption } from '../../shared';
+import {WorkLog} from './work-log.model';
+import {ResponseWrapper, createRequestOption} from '../../shared';
+import {StatisticModule} from "../../statistic/statistic.module";
+import {Statistic} from "../../statistic/statistic-overview/statistic-overview.component";
 
 @Injectable()
 export class WorkLogService {
 
     private resourceUrl = 'api/work-logs';
 
-    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
+    constructor(private http: Http, private dateUtils: JhiDateUtils) {
+    }
 
     create(workLog: WorkLog): Observable<WorkLog> {
         const copy = this.convert(workLog);
@@ -47,6 +50,16 @@ export class WorkLogService {
 
     delete(id: number): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
+    }
+
+    statisticPerProject(): Observable<Statistic> {
+        return this.http.get(`${this.resourceUrl}/statistics/project`)
+            .map((res: Response) => res.json() as Statistic);
+    }
+
+    statisticPerEmployee(): Observable<Statistic> {
+        return this.http.get(`${this.resourceUrl}/statistics/employee`)
+            .map((res: Response) => res.json() as Statistic);
     }
 
     private convertResponse(res: Response): ResponseWrapper {

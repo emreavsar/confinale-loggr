@@ -1,6 +1,7 @@
 package ch.avsar.loggr.web.rest;
 
 import ch.avsar.loggr.domain.Project;
+import ch.avsar.loggr.domain.User;
 import ch.avsar.loggr.domain.WorkLog;
 import com.codahale.metrics.annotation.Timed;
 import ch.avsar.loggr.service.WorkLogService;
@@ -138,5 +139,17 @@ public class WorkLogResource {
         log.debug("REST request to get statistic by project.");
         Map<Project, List<WorkLog>> statisticPerProject = workLogService.getStatisticPerProject();
         return new ResponseEntity<>(statisticPerProject, HttpStatus.OK);
+    }
+
+    /**
+     * GET /work-logs/statistics/project : returns statistics per employee
+     *
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @GetMapping("/work-logs/statistics/employee")
+    public ResponseEntity<Map<User, List<WorkLog>>> getStatisticsByEmployee() {
+        log.debug("REST request to get statistic by employee.");
+        Map<User, List<WorkLog>> statisticPerEmployee = workLogService.getStatisticPerEmployee();
+        return new ResponseEntity<>(statisticPerEmployee, HttpStatus.OK);
     }
 }

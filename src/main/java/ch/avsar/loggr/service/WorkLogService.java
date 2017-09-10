@@ -1,6 +1,7 @@
 package ch.avsar.loggr.service;
 
 import ch.avsar.loggr.domain.Project;
+import ch.avsar.loggr.domain.User;
 import ch.avsar.loggr.domain.WorkLog;
 import ch.avsar.loggr.service.dto.WorkLogDTO;
 import org.springframework.data.domain.Page;
@@ -51,4 +52,11 @@ public interface WorkLogService {
      * @return map of all projects and their worklogs.
      */
     Map<Project, List<WorkLog>> getStatisticPerProject();
+
+    /**
+     * Returns a map of all employees (key) and all the worklogs for it (value).
+     *
+     * @return map of all projects and their worklogs.
+     */
+    Map<User, List<WorkLog>> getStatisticPerEmployee();
 }

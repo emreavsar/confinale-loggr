@@ -1,0 +1,18 @@
+{
+    "loggrApp": {
+        "statistic": {
+            "home": {
+                "title": "Statistics"
+            },
+            "project": {
+                "title": "Per Project"
+            },
+            "employee": {
+                "title": "Per Employee"
+            },
+            "raw": {
+                "toggle": "Toggle raw data"
+            }
+        }
+    }
+}
