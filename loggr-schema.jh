@@ -15,7 +15,7 @@ entity WorkLog {
 }
 
 relationship ManyToOne {
-	WorkLog{creator} to User
+	WorkLog{creator} to User,
 	WorkLog{project} to Project
 }
 
