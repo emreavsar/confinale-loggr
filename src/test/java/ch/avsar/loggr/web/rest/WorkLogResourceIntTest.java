@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -115,6 +116,7 @@ public class WorkLogResourceIntTest {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"})
     public void createWorkLog() throws Exception {
         int databaseSizeBeforeCreate = workLogRepository.findAll().size();
 
@@ -256,6 +258,7 @@ public class WorkLogResourceIntTest {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"})
     public void updateWorkLog() throws Exception {
         // Initialize the database
         workLogRepository.saveAndFlush(workLog);
@@ -287,6 +290,7 @@ public class WorkLogResourceIntTest {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"})
     public void updateNonExistingWorkLog() throws Exception {
         int databaseSizeBeforeUpdate = workLogRepository.findAll().size();
 
@@ -306,6 +310,7 @@ public class WorkLogResourceIntTest {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"})
     public void deleteWorkLog() throws Exception {
         // Initialize the database
         workLogRepository.saveAndFlush(workLog);
