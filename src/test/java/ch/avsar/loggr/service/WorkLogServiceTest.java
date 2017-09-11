@@ -35,7 +35,7 @@ public class WorkLogServiceTest {
         allWorkLogs.addAll(getWorkLogs(3, "Project B", "Foo", "Bar", "foobar"));
         Mockito.when(workLogRepository.findAll()).thenReturn(allWorkLogs);
 
-        // when the statistics per project gets retrieved
+        // when the statistics per project get retrieved
         Map<String, Double> result = workLogService.getStatisticPerProject();
 
         // then the statistic must contain the total worked hours summed up for each project
@@ -43,6 +43,25 @@ public class WorkLogServiceTest {
         Assertions.assertThat(result.get("Project B")).isEqualTo(0 + 1 + 2);
     }
 
+    @Test
+    public void worklogPerProjectWithFloatingPoints() throws Exception {
+        // given there are two worklogs which have floating point values in it (0.75h and 1.5h)
+        List<WorkLog> allWorkLogs = getWorkLogs(2, "Project A", "Foo", "Bar", "foobar");
+        WorkLog firstWorkLog = allWorkLogs.get(0);
+        firstWorkLog.setStartDate(ZonedDateTime.now());
+        firstWorkLog.setEndDate(firstWorkLog.getStartDate().plusMinutes(45));
+
+        WorkLog secondWorkLog = allWorkLogs.get(1);
+        secondWorkLog.setStartDate(ZonedDateTime.now());
+        secondWorkLog.setEndDate(secondWorkLog.getStartDate().plusMinutes(90));
+        Mockito.when(workLogRepository.findAll()).thenReturn(allWorkLogs);
+
+        // when the statistics per project get retrieved
+        Map<String, Double> result = workLogService.getStatisticPerProject();
+
+        // then the statistic must contain the total worked hours summed up for each project
+        Assertions.assertThat(result.get("Project A")).isEqualTo(0.75 + 1.5);
+    }
 
     @Test
     public void worklogPerEmployee() throws Exception {
@@ -52,7 +71,7 @@ public class WorkLogServiceTest {
         allWorkLogs.addAll(getWorkLogs(2, "Project B", "Florian", "Schrag", "flo"));
         Mockito.when(workLogRepository.findAll()).thenReturn(allWorkLogs);
 
-        // when the statistics per employee gets retrieved
+        // when the statistics per employee get retrieved
         Map<String, Double> result = workLogService.getStatisticPerEmployee();
 
         // then the statistic must contain the total worked hours summed up for each project
@@ -79,7 +98,7 @@ public class WorkLogServiceTest {
 
             // start date is now, each worklog increments hours of work (we love to work more and more.., or we find more bugs to fix)
             ZonedDateTime startDate = ZonedDateTime.now();
-            ZonedDateTime endDate = ZonedDateTime.now().plusHours(i);
+            ZonedDateTime endDate = startDate.plusHours(i);
 
             workLog.setStartDate(startDate);
             workLog.setEndDate(endDate);

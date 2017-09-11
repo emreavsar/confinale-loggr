@@ -53,5 +53,5 @@ export class StatisticOverviewComponent implements OnInit {
 
 export interface Statistic {
     name: string;
-    bookedHours: number[];
+    bookedHours: number;
 }

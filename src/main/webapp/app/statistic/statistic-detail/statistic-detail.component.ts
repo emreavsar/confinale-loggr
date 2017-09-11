@@ -15,6 +15,7 @@ export class StatisticDetailComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.statistic.bookedHours = +this.statistic.bookedHours.toFixed(2);
     }
 
 }

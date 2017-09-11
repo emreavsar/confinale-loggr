@@ -8,8 +8,6 @@ import ch.avsar.loggr.service.UserService;
 import ch.avsar.loggr.service.WorkLogService;
 import ch.avsar.loggr.domain.WorkLog;
 import ch.avsar.loggr.repository.WorkLogRepository;
-import ch.avsar.loggr.service.dto.ProjectDTO;
-import ch.avsar.loggr.service.dto.UserDTO;
 import ch.avsar.loggr.service.dto.WorkLogDTO;
 import ch.avsar.loggr.service.mapper.ProjectMapper;
 import ch.avsar.loggr.service.mapper.WorkLogMapper;
@@ -23,10 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -130,12 +128,18 @@ public class WorkLogServiceImpl implements WorkLogService {
             .forEach((project, workLogs) -> {
                 Double bookedHoursInProject = workLogs
                     .stream()
-                    .mapToDouble(workLog -> ChronoUnit.HOURS.between(workLog.getStartDate(), workLog.getEndDate()))
+                    .mapToDouble(workLog -> betweenWithFraction(workLog.getStartDate(), workLog.getEndDate()))
                     .sum();
                 statistics.put(project.getName(), bookedHoursInProject);
             });
 
         return statistics;
+    }
+
+    private static double betweenWithFraction(Temporal startInclusive, Temporal endExclusive) {
+        Duration duration = Duration.between(startInclusive, endExclusive);
+        long conversion = Duration.of(1, ChronoUnit.HOURS).toNanos();
+        return (double) duration.toNanos() / conversion;
     }
 
     @Override
@@ -154,7 +158,7 @@ public class WorkLogServiceImpl implements WorkLogService {
             .forEach((user, workLogs) -> {
                 Double bookedHoursOfEmployee = workLogs
                     .stream()
-                    .mapToDouble(workLog -> ChronoUnit.HOURS.between(workLog.getStartDate(), workLog.getEndDate()))
+                    .mapToDouble(workLog -> betweenWithFraction(workLog.getStartDate(), workLog.getEndDate()))
                     .sum();
                 statistics.put(user.getFirstName() + " " + user.getLastName() + " (" + user.getLogin() + ")", bookedHoursOfEmployee);
             });
