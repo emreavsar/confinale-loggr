@@ -5,6 +5,7 @@ import {statisticsRoute} from "./statistics.route";
 import {LoggrAdminModule} from "../admin/admin.module";
 import {LoggrSharedModule} from "../shared/shared.module";
 import {StatisticOverviewComponent} from "./statistic-overview/statistic-overview.component";
+import {StatisticDetailComponent} from "./statistic-detail/statistic-detail.component";
 
 const ENTITY_STATES = [
     ...statisticsRoute
@@ -17,7 +18,7 @@ const ENTITY_STATES = [
         CommonModule,
         RouterModule.forRoot(ENTITY_STATES, {useHash: true})
     ],
-    declarations: [StatisticOverviewComponent]
+    declarations: [StatisticOverviewComponent, StatisticDetailComponent]
 })
 export class StatisticModule {
 }

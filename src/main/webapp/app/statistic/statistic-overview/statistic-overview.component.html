@@ -2,18 +2,32 @@
     <h2>
         <span jhiTranslate="loggrApp.statistic.home.title">Work Logs</span>
     </h2>
-    <div class="row">
+    <div class="row statistic-container">
 
         <div class="col-md-6">
-            <h3 jhiTranslate="loggrApp.statistic.project.title">Per Project</h3>
+            <h3>
+                <span jhiTranslate="loggrApp.statistic.project.title">Per Project</span>
+                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+            </h3>
 
-            <ul>
-                <li *ngFor="let statistic of statisticPerProject">
-                    {{statistic|json}}
-                </li>
-            </ul>
+            <jhi-statistic-detail *ngFor="let statistic of statisticPerProject" [statistic]="statistic">
+            </jhi-statistic-detail>
+        </div>
 
-            <button class="btn" type="button" (click)="toggleRawDataPerProject()"
+        <div class="col-md-6">
+
+            <h3>
+                <span jhiTranslate="loggrApp.statistic.employee.title">Per Employee</span>
+                <i class="fa fa-user" aria-hidden="true"></i>
+            </h3>
+
+            <jhi-statistic-detail *ngFor="let statistic of statisticPerEmployee" [statistic]="statistic">
+            </jhi-statistic-detail>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <button class="btn btn-toggle" type="button" (click)="toggleRawDataPerProject()"
                     jhiTranslate="loggrApp.statistic.raw.toggle">
                 Toggle
                 raw data:
@@ -21,17 +35,8 @@
 
             <pre *ngIf="showRawDataPerProject">{{statisticPerProject|json}}</pre>
         </div>
-
         <div class="col-md-6">
-            <h3 jhiTranslate="loggrApp.statistic.employee.title">Per Employee</h3>
-
-            <ul>
-                <li *ngFor="let statistic of statisticPerEmployee">
-                    {{statistic|json}}
-                </li>
-            </ul>
-
-            <button class="btn" type="button" (click)="toggleRawDataPerEmployee()"
+            <button class="btn btn-toggle" type="button" (click)="toggleRawDataPerEmployee()"
                     jhiTranslate="loggrApp.statistic.raw.toggle">
                 Toggle
                 raw data:

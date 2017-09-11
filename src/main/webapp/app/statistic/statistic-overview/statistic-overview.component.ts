@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {WorkLogService} from "../../entities/work-log/work-log.service";
-import {WorkLog} from "../../entities/work-log/work-log.model";
 
 @Component({
     selector: 'jhi-statistic-overview',
@@ -10,7 +9,11 @@ import {WorkLog} from "../../entities/work-log/work-log.model";
             font-size: 10px !important;
             background-color: lightgray;
             margin-top: 20px;
-        }        
+        }
+        
+        .btn-toggle, .statistic-container {
+            margin-top: 50px;
+        }
     `]
 })
 export class StatisticOverviewComponent implements OnInit {

@@ -12,7 +12,8 @@
             },
             "raw": {
                 "toggle": "Toggle raw data"
-            }
+            },
+            "hours": "hours"
         }
     }
 }
