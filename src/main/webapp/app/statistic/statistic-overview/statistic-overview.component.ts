@@ -23,10 +23,6 @@ export class StatisticOverviewComponent implements OnInit {
 
     showRawDataPerEmployee: boolean;
 
-    perProjectBarChartLabels: string[];
-
-    perProjectBarChartData: string[];
-
     constructor(private worklogService: WorkLogService) {
     }
 
@@ -35,7 +31,6 @@ export class StatisticOverviewComponent implements OnInit {
         this.worklogService.statisticPerProject()
             .subscribe((res) => {
                 this.statisticPerProject = res;
-                this.updateStatisticChart();
             });
 
         this.worklogService.statisticPerEmployee()
@@ -51,17 +46,9 @@ export class StatisticOverviewComponent implements OnInit {
     toggleRawDataPerEmployee() {
         this.showRawDataPerEmployee = !this.showRawDataPerEmployee;
     }
-
-    private updateStatisticChart() {
-        this.perProjectBarChartLabels = this.statisticPerProject.map(statistic => statistic.name);
-        this.perProjectBarChartData = ['hello', 'world', 'whats', 'up'];
-        // this.perProjectBarChartData = this.statisticPerProject.map(statistic => {
-        // statistic.worklogs.map(value => value)
-        // });
-    }
 }
 
 export interface Statistic {
     name: string;
-    worklogs: WorkLog[];
+    bookedHours: number[];
 }

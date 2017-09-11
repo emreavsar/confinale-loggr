@@ -8,7 +8,10 @@ import ch.avsar.loggr.service.UserService;
 import ch.avsar.loggr.service.WorkLogService;
 import ch.avsar.loggr.domain.WorkLog;
 import ch.avsar.loggr.repository.WorkLogRepository;
+import ch.avsar.loggr.service.dto.ProjectDTO;
+import ch.avsar.loggr.service.dto.UserDTO;
 import ch.avsar.loggr.service.dto.WorkLogDTO;
+import ch.avsar.loggr.service.mapper.ProjectMapper;
 import ch.avsar.loggr.service.mapper.WorkLogMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +21,12 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -36,11 +43,14 @@ public class WorkLogServiceImpl implements WorkLogService {
 
     private final WorkLogMapper workLogMapper;
 
+    private final ProjectMapper projectMapper;
+
     private final UserService userService;
 
-    public WorkLogServiceImpl(WorkLogRepository workLogRepository, WorkLogMapper workLogMapper, UserService userService) {
+    public WorkLogServiceImpl(WorkLogRepository workLogRepository, WorkLogMapper workLogMapper, ProjectMapper projectMapper, UserService userService) {
         this.workLogRepository = workLogRepository;
         this.workLogMapper = workLogMapper;
+        this.projectMapper = projectMapper;
         this.userService = userService;
     }
 
@@ -65,7 +75,7 @@ public class WorkLogServiceImpl implements WorkLogService {
     }
 
     /**
-     * Get all the workLogs.
+     * Get all the getWorkLogs.
      *
      * @param pageable the pagination information
      * @return the list of entities
@@ -105,21 +115,51 @@ public class WorkLogServiceImpl implements WorkLogService {
     }
 
     @Override
-    public Map<Project, List<WorkLog>> getStatisticPerProject() {
-        log.debug("Request statistic per project");
+    public Map<String, Double> getStatisticPerProject() {
+        log.debug("Request statistic per project.");
+        Map<String, Double> statistics = new HashMap<>();
 
-        // TODO: 10.09.17 this can be done via repository group by methods, but since this is a prototype this is ok (performance)
+        // unfortunately it is not possible to calculate on times with jpa queries in repository, so first get all bookedHours and then map them with calculating the difference
         List<WorkLog> allWorkLogs = workLogRepository.findAll();
-        return allWorkLogs.stream().collect(Collectors.groupingBy(WorkLog::getProject));
+
+        Map<Project, List<WorkLog>> projectWorkLogs = allWorkLogs
+            .stream()
+            .collect(Collectors.groupingBy(WorkLog::getProject));
+
+        projectWorkLogs
+            .forEach((project, workLogs) -> {
+                Double bookedHoursInProject = workLogs
+                    .stream()
+                    .mapToDouble(workLog -> ChronoUnit.HOURS.between(workLog.getStartDate(), workLog.getEndDate()))
+                    .sum();
+                statistics.put(project.getName(), bookedHoursInProject);
+            });
+
+        return statistics;
     }
 
     @Override
-    public Map<User, List<WorkLog>> getStatisticPerEmployee() {
-        log.debug("Request statistic per employee");
+    public Map<String, Double> getStatisticPerEmployee() {
+        log.debug("Request statistic per employee.");
+        Map<String, Double> statistics = new HashMap<>();
 
-        // TODO: 10.09.17 this can be done via repository group by methods, but since this is a prototype this is ok (performance)
+        // unfortunately it is not possible to calculate on times with jpa queries in repository, so first get all bookedHours and then map them with calculating the difference
         List<WorkLog> allWorkLogs = workLogRepository.findAll();
-        return allWorkLogs.stream().collect(Collectors.groupingBy(WorkLog::getCreator));
+
+        Map<User, List<WorkLog>> employeeWorkLogs = allWorkLogs
+            .stream()
+            .collect(Collectors.groupingBy(WorkLog::getCreator));
+
+        employeeWorkLogs
+            .forEach((user, workLogs) -> {
+                Double bookedHoursOfEmployee = workLogs
+                    .stream()
+                    .mapToDouble(workLog -> ChronoUnit.HOURS.between(workLog.getStartDate(), workLog.getEndDate()))
+                    .sum();
+                statistics.put(user.getFirstName() + " " + user.getLastName() + " (" + user.getLogin() + ")", bookedHoursOfEmployee);
+            });
+
+        return statistics;
     }
 
     private void checkPermissions(Long creatorId) {
@@ -128,7 +168,7 @@ public class WorkLogServiceImpl implements WorkLogService {
             boolean isManager = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.MANAGER);
             boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
             if (!isManager && !isAdmin) {
-                throw new AccessDeniedException("Saving worklogs of others is only permitted to users with manager or admin role.");
+                throw new AccessDeniedException("Saving bookedHours of others is only permitted to users with manager or admin role.");
             }
         }
     }

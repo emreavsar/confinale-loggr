@@ -54,12 +54,29 @@ export class WorkLogService {
 
     statisticPerProject(): Observable<Statistic[]> {
         return this.http.get(`${this.resourceUrl}/statistics/project`)
-            .map((res: Response) => res.json());
+            .map((res: Response) => this.mapResponseToStatistics(res));
+    }
+
+    /**
+     * Helper method to map a response object to statistic array.
+     * @param {Response} res
+     * @returns {Statistic[]}
+     */
+    private mapResponseToStatistics(res: Response) {
+        const json = res.json();
+        const statistics: Statistic[] = [];
+        Object.keys(json).forEach(key => {
+            statistics.push({
+                name: key,
+                bookedHours: json[key]
+            });
+        });
+        return statistics;
     }
 
     statisticPerEmployee(): Observable<Statistic[]> {
         return this.http.get(`${this.resourceUrl}/statistics/employee`)
-            .map((res: Response) => res.json());
+            .map((res: Response) => this.mapResponseToStatistics(res));
     }
 
     private convertResponse(res: Response): ResponseWrapper {

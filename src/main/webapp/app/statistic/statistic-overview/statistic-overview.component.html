@@ -7,19 +7,29 @@
         <div class="col-md-6">
             <h3 jhiTranslate="loggrApp.statistic.project.title">Per Project</h3>
 
+            <ul>
+                <li *ngFor="let statistic of statisticPerProject">
+                    {{statistic|json}}
+                </li>
+            </ul>
+
             <button class="btn" type="button" (click)="toggleRawDataPerProject()"
                     jhiTranslate="loggrApp.statistic.raw.toggle">
                 Toggle
                 raw data:
             </button>
 
-            Here will be the chart.
-
             <pre *ngIf="showRawDataPerProject">{{statisticPerProject|json}}</pre>
         </div>
 
         <div class="col-md-6">
             <h3 jhiTranslate="loggrApp.statistic.employee.title">Per Employee</h3>
+
+            <ul>
+                <li *ngFor="let statistic of statisticPerEmployee">
+                    {{statistic|json}}
+                </li>
+            </ul>
 
             <button class="btn" type="button" (click)="toggleRawDataPerEmployee()"
                     jhiTranslate="loggrApp.statistic.raw.toggle">

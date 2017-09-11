@@ -1,8 +1,7 @@
 package ch.avsar.loggr.service;
 
-import ch.avsar.loggr.domain.Project;
-import ch.avsar.loggr.domain.User;
-import ch.avsar.loggr.domain.WorkLog;
+import ch.avsar.loggr.service.dto.ProjectDTO;
+import ch.avsar.loggr.service.dto.UserDTO;
 import ch.avsar.loggr.service.dto.WorkLogDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +23,7 @@ public interface WorkLogService {
     WorkLogDTO save(WorkLogDTO workLogDTO);
 
     /**
-     * Get all the workLogs.
+     * Get all the getWorkLogs.
      *
      * @param pageable the pagination information
      * @return the list of entities
@@ -46,17 +45,19 @@ public interface WorkLogService {
      */
     void delete(Long id);
 
-    /**
-     * Returns a map of all projects (key) and all the worklogs for it (value).
-     *
-     * @return map of all projects and their worklogs.
-     */
-    Map<Project, List<WorkLog>> getStatisticPerProject();
 
     /**
-     * Returns a map of all employees (key) and all the worklogs for it (value).
+     * Returns statistics with projectname and all bookedHours in hours for that project.
      *
-     * @return map of all projects and their worklogs.
+     * @return map of projectname => booked hours.
      */
-    Map<User, List<WorkLog>> getStatisticPerEmployee();
+    Map<String, Double> getStatisticPerProject();
+
+
+    /**
+     * Returns statistics with employee and all bookedHours in hours for that project.
+     *
+     * @return map of employeename => booked hours.
+     */
+    Map<String, Double> getStatisticPerEmployee();
 }

@@ -1,8 +1,5 @@
 package ch.avsar.loggr.web.rest;
 
-import ch.avsar.loggr.domain.Project;
-import ch.avsar.loggr.domain.User;
-import ch.avsar.loggr.domain.WorkLog;
 import com.codahale.metrics.annotation.Timed;
 import ch.avsar.loggr.service.WorkLogService;
 import ch.avsar.loggr.web.rest.util.HeaderUtil;
@@ -87,10 +84,10 @@ public class WorkLogResource {
     }
 
     /**
-     * GET  /work-logs : get all the workLogs.
+     * GET  /work-logs : get all the getWorkLogs.
      *
      * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of workLogs in body
+     * @return the ResponseEntity with status 200 (OK) and the list of getWorkLogs in body
      */
     @GetMapping("/work-logs")
     @Timed
@@ -135,9 +132,9 @@ public class WorkLogResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @GetMapping("/work-logs/statistics/project")
-    public ResponseEntity<Map<Project, List<WorkLog>>> getStatisticsByProject() {
+    public ResponseEntity<Map<String, Double>> getStatisticsByProject() {
         log.debug("REST request to get statistic by project.");
-        Map<Project, List<WorkLog>> statisticPerProject = workLogService.getStatisticPerProject();
+        final Map<String, Double> statisticPerProject = workLogService.getStatisticPerProject();
         return new ResponseEntity<>(statisticPerProject, HttpStatus.OK);
     }
 
@@ -147,9 +144,9 @@ public class WorkLogResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @GetMapping("/work-logs/statistics/employee")
-    public ResponseEntity<Map<User, List<WorkLog>>> getStatisticsByEmployee() {
+    public ResponseEntity<Map<String, Double>> getStatisticsByEmployee() {
         log.debug("REST request to get statistic by employee.");
-        Map<User, List<WorkLog>> statisticPerEmployee = workLogService.getStatisticPerEmployee();
+        final Map<String, Double> statisticPerEmployee = workLogService.getStatisticPerEmployee();
         return new ResponseEntity<>(statisticPerEmployee, HttpStatus.OK);
     }
 }
