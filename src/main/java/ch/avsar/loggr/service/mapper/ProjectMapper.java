@@ -11,7 +11,6 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {})
 public interface ProjectMapper extends EntityMapper <ProjectDTO, Project> {
 
-    @Mapping(target = "bookedHours", ignore = true)
     Project toEntity(ProjectDTO projectDTO);
     default Project fromId(Long id) {
         if (id == null) {
