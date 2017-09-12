@@ -30,7 +30,6 @@ export class StatisticOverviewComponent implements OnInit {
     }
 
     ngOnInit() {
-
         this.worklogService.statisticPerProject()
             .subscribe((res) => {
                 this.statisticPerProject = res;

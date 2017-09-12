@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from "@angular/router";
 import {statisticsRoute} from "./statistics.route";
@@ -18,7 +18,9 @@ const ENTITY_STATES = [
         CommonModule,
         RouterModule.forRoot(ENTITY_STATES, {useHash: true})
     ],
-    declarations: [StatisticOverviewComponent, StatisticDetailComponent]
+    declarations: [StatisticOverviewComponent, StatisticDetailComponent],
+    entryComponents: [StatisticOverviewComponent, StatisticDetailComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class StatisticModule {
 }
