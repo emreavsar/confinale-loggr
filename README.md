@@ -1,6 +1,9 @@
 # loggr
 This application was generated using JHipster 4.7.0, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v4.7.0](https://jhipster.github.io/documentation-archive/v4.7.0).
 
+# Wiki
+See also https://github.com/emreavsar/confinale-loggr/wiki
+
 ## Development
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
