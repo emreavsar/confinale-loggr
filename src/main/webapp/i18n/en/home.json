@@ -1,7 +1,7 @@
 {
     "home": {
-        "title": "Welcome, Java Hipster!",
-        "subtitle": "This is your homepage",
+        "title": "Welcome to Loggr!",
+        "subtitle": "The most advanced time logging application you've seen!",
         "logged": {
             "message": "You are logged in as user \"{{username}}\"."
         },
