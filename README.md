@@ -120,9 +120,15 @@ Unit tests are run by [Karma][] and written with [Jasmine][]. They're located in
 
     yarn test
 
-
-
 For more information, refer to the [Running tests page][].
+
+## Heroku deployment
+
+Deploy the app simply by using the following commands:
+
+    heroku login
+    jhipster heroku
+
 
 ## Using Docker to simplify development (optional)
 
