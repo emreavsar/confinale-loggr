@@ -13,7 +13,9 @@
             "raw": {
                 "toggle": "Toggle raw data"
             },
-            "hours": "hours"
+            "hours": "hours",
+            "notFound": "No statistics found",
+            "loading": "Loading statistics"
         }
     }
 }

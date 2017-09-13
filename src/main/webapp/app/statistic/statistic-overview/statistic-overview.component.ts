@@ -22,6 +22,9 @@ export class StatisticOverviewComponent implements OnInit {
 
     statisticPerEmployee: Statistic[];
 
+    statisticPerProjectLoading = false;
+    statisticPerEmployeeLoading = false;
+
     showRawDataPerProject: boolean;
 
     showRawDataPerEmployee: boolean;
@@ -30,13 +33,17 @@ export class StatisticOverviewComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.statisticPerProjectLoading = true;
         this.worklogService.statisticPerProject()
             .subscribe((res) => {
+                this.statisticPerProjectLoading = false;
                 this.statisticPerProject = res;
             });
 
+        this.statisticPerEmployeeLoading = true;
         this.worklogService.statisticPerEmployee()
             .subscribe((res) => {
+                this.statisticPerEmployeeLoading = false;
                 this.statisticPerEmployee = res;
             });
     }

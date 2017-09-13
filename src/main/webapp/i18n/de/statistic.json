@@ -13,7 +13,9 @@
             "raw": {
                 "toggle": "Rohdaten anzeigen"
             },
-            "hours": "Stunden"
+            "hours": "Stunden",
+            "notFound": "Keine Statistiken gefunden",
+            "loading": "Ladet"
         }
     }
 }

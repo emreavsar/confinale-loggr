@@ -2,6 +2,7 @@ package ch.avsar.loggr.service.impl;
 
 import ch.avsar.loggr.domain.Project;
 import ch.avsar.loggr.domain.User;
+import ch.avsar.loggr.domain.enumeration.WorkLogType;
 import ch.avsar.loggr.security.AuthoritiesConstants;
 import ch.avsar.loggr.security.SecurityUtils;
 import ch.avsar.loggr.service.UserService;
@@ -118,7 +119,7 @@ public class WorkLogServiceImpl implements WorkLogService {
         Map<String, Double> statistics = new HashMap<>();
 
         // unfortunately it is not possible to calculate on times with jpa queries in repository, so first get all bookedHours and then map them with calculating the difference
-        List<WorkLog> allWorkLogs = workLogRepository.findAll();
+        List<WorkLog> allWorkLogs = workLogRepository.findAllByType(WorkLogType.WORK);
 
         Map<Project, List<WorkLog>> projectWorkLogs = allWorkLogs
             .stream()
@@ -148,7 +149,7 @@ public class WorkLogServiceImpl implements WorkLogService {
         Map<String, Double> statistics = new HashMap<>();
 
         // unfortunately it is not possible to calculate on times with jpa queries in repository, so first get all bookedHours and then map them with calculating the difference
-        List<WorkLog> allWorkLogs = workLogRepository.findAll();
+        List<WorkLog> allWorkLogs = workLogRepository.findAllByType(WorkLogType.WORK);
 
         Map<User, List<WorkLog>> employeeWorkLogs = allWorkLogs
             .stream()
@@ -158,7 +159,7 @@ public class WorkLogServiceImpl implements WorkLogService {
             .forEach((user, workLogs) -> {
                 Double bookedHoursOfEmployee = workLogs
                     .stream()
-                    .mapToDouble(workLog -> betweenWithFraction(workLog.getStartDate(), workLog.getEndDate()))
+                    .mapToDouble(workLog -> ChronoUnit.HOURS.between(workLog.getStartDate(), workLog.getEndDate()))
                     .sum();
                 statistics.put(user.getFirstName() + " " + user.getLastName() + " (" + user.getLogin() + ")", bookedHoursOfEmployee);
             });

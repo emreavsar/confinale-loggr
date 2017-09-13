@@ -4,6 +4,7 @@ import ch.avsar.loggr.LoggrApp;
 import ch.avsar.loggr.domain.Project;
 import ch.avsar.loggr.domain.User;
 import ch.avsar.loggr.domain.WorkLog;
+import ch.avsar.loggr.domain.enumeration.WorkLogType;
 import ch.avsar.loggr.repository.WorkLogRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class WorkLogServiceTest {
         // given there are 8 worklogs in 2 projects as follows
         List<WorkLog> allWorkLogs = getWorkLogs(5, "Project A", "Foo", "Bar", "foobar");
         allWorkLogs.addAll(getWorkLogs(3, "Project B", "Foo", "Bar", "foobar"));
-        Mockito.when(workLogRepository.findAll()).thenReturn(allWorkLogs);
+        Mockito.when(workLogRepository.findAllByType(Mockito.eq(WorkLogType.WORK))).thenReturn(allWorkLogs);
 
         // when the statistics per project get retrieved
         Map<String, Double> result = workLogService.getStatisticPerProject();
@@ -54,7 +55,7 @@ public class WorkLogServiceTest {
         WorkLog secondWorkLog = allWorkLogs.get(1);
         secondWorkLog.setStartDate(ZonedDateTime.now());
         secondWorkLog.setEndDate(secondWorkLog.getStartDate().plusMinutes(90));
-        Mockito.when(workLogRepository.findAll()).thenReturn(allWorkLogs);
+        Mockito.when(workLogRepository.findAllByType(Mockito.eq(WorkLogType.WORK))).thenReturn(allWorkLogs);
 
         // when the statistics per project get retrieved
         Map<String, Double> result = workLogService.getStatisticPerProject();
@@ -69,7 +70,7 @@ public class WorkLogServiceTest {
         List<WorkLog> allWorkLogs = getWorkLogs(1, "Project A", "Foo", "Bar", "foobar");
         allWorkLogs.addAll(getWorkLogs(4, "Project A", "Steve", "Wozniak", "woz"));
         allWorkLogs.addAll(getWorkLogs(2, "Project B", "Florian", "Schrag", "flo"));
-        Mockito.when(workLogRepository.findAll()).thenReturn(allWorkLogs);
+        Mockito.when(workLogRepository.findAllByType(Mockito.eq(WorkLogType.WORK))).thenReturn(allWorkLogs);
 
         // when the statistics per employee get retrieved
         Map<String, Double> result = workLogService.getStatisticPerEmployee();

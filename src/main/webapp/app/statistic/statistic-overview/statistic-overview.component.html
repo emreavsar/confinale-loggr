@@ -12,6 +12,13 @@
 
             <jhi-statistic-detail *ngFor="let statistic of statisticPerProject" [statistic]="statistic">
             </jhi-statistic-detail>
+            <span class="info" *ngIf="!statisticPerProjectLoading && statisticPerProject.length === 0"
+                  jhiTranslate="loggrApp.statistic.notFound">
+                No statistics found.
+            </span>
+            <span *ngIf="statisticPerProjectLoading">
+                <i class='fa fa-circle-o-notch fa-spin'></i> <span jhiTranslate="loggrApp.statistic.loading">Loading statistics</span>
+            </span>
         </div>
 
         <div class="col-md-6">
@@ -23,6 +30,13 @@
 
             <jhi-statistic-detail *ngFor="let statistic of statisticPerEmployee" [statistic]="statistic">
             </jhi-statistic-detail>
+            <span class="info" *ngIf="!statisticPerEmployeeLoading && statisticPerEmployee.length === 0"
+                  jhiTranslate="loggrApp.statistic.notFound">
+                No statistics found.
+            </span>
+            <span *ngIf="statisticPerEmployeeLoading">
+                <i class='fa fa-circle-o-notch fa-spin'></i> <span jhiTranslate="loggrApp.statistic.loading">Loading statistics</span>
+            </span>
         </div>
     </div>
     <div class="row">
